@@ -1,0 +1,7 @@
+Build
+gcc %filepath% -o %outputFilepath%
+gcc Basics/hello.c -o Basics/hello
+
+Run
+./%filepath%
+./Basics/hello
