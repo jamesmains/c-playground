@@ -2,7 +2,8 @@
 #include "readInput.h"
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 
-// Using macros AND headers
+// Using macros AND headers, but apparently this is incorrect
+// since headers should NOT contain logic.
 
 int main(void){
     int x = readNumber("Enter a number between 0 & 99: ");
