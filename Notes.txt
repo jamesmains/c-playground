@@ -1,3 +1,12 @@
+C --------------------------------------
+Header files: A template of what *can* be done. Analogy is this is the 'menu' of a restaurant.
+.C files: The what is done. Analogy is this is the 'kitchen' of a restaurant.
+Pass By...
+    |-> Value: A copy of the original data, values changed by a function with a copy will not affect the originals values.
+    |-> Pointer: A 'remote' to the original data, values changed by a function directly affects the original values.
+    |-> Address: The location of the original data, doesn't do much until stored in a pointer.
+
+GCC ------------------------------------
 Build
 gcc %filepath% -o %outputFilepath%
 gcc Basics/hello.c -o Basics/hello
@@ -5,3 +14,7 @@ gcc Basics/hello.c -o Basics/hello
 Run
 ./%filepath%
 ./Basics/hello
+
+Make -------------------------------------
+make: builds out the project based on the makefile
+make clean: cleans out the build files from the directory
