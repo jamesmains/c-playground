@@ -1,0 +1,2 @@
+# What is this?
+This is a compilation of projects as I learn more about C as well as somewhere for me to write out my notes and thoughts as I learn the language. There may be nothing entirely impressive in this repo, but it's fun working with a new language.
