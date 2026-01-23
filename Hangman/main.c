@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "database.h"
 #include <stdlib.h>
+#include <time.h>
 
 void draw_screen(Word* word, char* guesses, int guessCount) {
     for(int i = 0; word->text[i] != '\0'; i++) { // Loop until the end of the string
@@ -19,6 +20,7 @@ void draw_screen(Word* word, char* guesses, int guessCount) {
 int main(){
     char guesses[30];
     int guessIndex = 0;
+    srand((unsigned int)time(NULL));
     Word word = word_list[rand() % word_list_size];
     int guessesRemaining = 6;
     while(guessesRemaining > 0){
@@ -42,7 +44,21 @@ int main(){
         if(!correct){
             guessesRemaining--;
         }
+        for (int w = 0; word.text[w] != '\0'; w++) {
+            int found = 0;
+            for (int g = 0; g < guessIndex; g++) {
+                if(word.text[w] == guesses[g]) {
+                    found = 1;
+                    break;
+                }
+            }
+            if(!found) break;
+            if(word.text[w + 1] == '\0') {
+                printf("\nCongratulations! You guessed the word: %s\n", word.text);
+                return 0;
+            }
+        }
     }
-    // scanf("%29s", word);
+    printf("\nGame Over! The word was: %s\n", word.text);
     return 0;
 }
