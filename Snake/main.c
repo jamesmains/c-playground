@@ -6,7 +6,7 @@
 #include "fruit.h"
 
 #define BOARD_WIDTH 10
-#define BOARD_HEIGHT 10
+#define BOARD_HEIGHT 7
 
 #define GAME_SPEED 350000 // 0.35 seconds
 
@@ -42,17 +42,14 @@ int kbhit() {
 
 void draw_board(Player *player, Fruit *fruit, Player *children, int childCount){
     printf("\033[H\033[J"); // Clear screen
-    
     int prevX = player->x;
     int prevY = player->y;
-    int overlappingPlayer = 0;
 
     player->x += player->directionX;
     player->y += player->directionY;
     
     for (int i = 0; i < childCount; i++) {
         if (player->x == children[i].x && player->y == children[i].y) {
-            overlappingPlayer = 1; // Game Over!
             player->alive = 0;
             break;
         }
@@ -86,7 +83,6 @@ void draw_board(Player *player, Fruit *fruit, Player *children, int childCount){
                 if (x == children[c].x && y == children[c].y)
                 {
                     printf("o");
-                    player->alive = 0; // End game if player overlaps with child
                     childAtPos = 1;
                     break;
                 }
@@ -100,12 +96,14 @@ void draw_board(Player *player, Fruit *fruit, Player *children, int childCount){
             else
                 printf(".");
         }
+
         printf("\n");
     }
-    printf("[DEBUG] Player Direction: (%d, %d)\n", player->directionX, player->directionY);
-    printf("[DEBUG] Child Count: %d\n", childCount);
-    printf("[DEBUG] Overlapping Player and Child: %d\n", overlappingPlayer);
-    printf("Fruit collected! Score: %d\n", player->score);
+
+    // printf("[DEBUG] Player Direction: (%d, %d)\n", player->directionX, player->directionY);
+    // printf("[DEBUG] Child Count: %d\n", childCount);
+    // printf("[DEBUG] Overlapping Player and Child: %d\n", overlappingPlayer);
+    printf("Score: %d\n", player->score);
 }
 
 void get_player_input(Player *player){
@@ -187,8 +185,8 @@ int main(){
                 .x = childIndex == 0 ? player.x: children[childIndex - 1].x,
                 .y = childIndex == 0 ? player.y: children[childIndex - 1].y,
                 .length = 1,
-                .directionX = player.directionX,
-                .directionY = player.directionY
+                .directionX = player.directionX - player.directionX,
+                .directionY = player.directionY - player.directionY
             };
             children[childIndex] = newChild;
             childIndex++;
