@@ -1,0 +1,48 @@
+#ifndef ITEMS_H
+#define ITEMS_H
+
+#include <stdbool.h>
+
+struct Entity;
+typedef struct Entity Entity;
+
+struct Stat;
+typedef struct Stat Stat;
+
+struct Item;
+typedef struct Item Item;
+
+typedef struct {
+    int dice_sides;
+    int dice_count;
+} DiceRoll;
+
+typedef void (*ItemEffect)(Entity *user, Entity *target, const Item *item);
+typedef bool (*StatRequirement)(Entity *user, Stat *requirements[], const Item *item);
+typedef int (*DiceRollFunction)(DiceRoll *roll, const Item *item);
+
+
+typedef struct {
+    int stat_id;
+    int required_value;
+} Requirement;
+
+typedef struct Item{
+    char name[32];
+    int id;
+    Requirement requirements[3];
+    int requirement_count;
+
+    DiceRoll rolls[3];
+    int dice_roll_count;
+
+    DiceRollFunction dice_roll_function;
+    StatRequirement stat_check;
+    ItemEffect effect;
+} Item;
+
+bool default_requirement_check(Entity *user, Stat *requirements[], const Item *item);
+int default_dice_roll(DiceRoll *roll, const Item *item);
+
+
+#endif
