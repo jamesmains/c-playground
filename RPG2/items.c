@@ -26,3 +26,33 @@ int default_dice_roll(DiceRoll *roll, const Item *item) {
     }
     return total;
 }
+
+void physical_damage_effect(Entity *user, Entity *target, const Item *item) {
+    int total_damage = 0;
+
+    printf("\n%s attacks %s with %s!\n", user->name, target->name, item->name);
+
+    for (int j = 0; j < item->dice_roll_count; j++) {
+        int roll_sum = 0;
+        DiceRoll current_roll = item->rolls[j];
+
+        printf("  Rolling %dd%d: ", current_roll.dice_count, current_roll.dice_sides);
+
+        for (int d = 0; d < current_roll.dice_count; d++) {
+            // We reuse your dice_roll_function but for 1 die at a time to see them
+            DiceRoll single = {.dice_sides = current_roll.dice_sides, .dice_count = 1};
+            int val = item->dice_roll_function(&single, item);
+            
+            printf("[%d] ", val);
+            roll_sum += val;
+        }
+
+        // Apply attribute bonuses here if you want (e.g., +STR)
+        total_damage += roll_sum;
+        printf("| Subtotal: %d\n", roll_sum);
+    }
+
+    // Now, actually modify the target
+    take_damage(target, total_damage, item->rolls[0].attribute_id);
+    
+}
