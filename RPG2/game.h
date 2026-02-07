@@ -18,5 +18,6 @@ typedef struct {
 } GameContext;
 
 void game_loop(GameContext *ctx);
+void await_user();
 
 #endif

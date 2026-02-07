@@ -1,17 +1,17 @@
 #include "world.h"
 #include <stdio.h>
+#include "database.h"
 const char *world_1[] = {
     "=================",
     "|               |",
     "|=|             |",
     "|     |=|       |",
     "|               |",
-    "|       |=|     |",
     "|               |",
-    "|   |=|         |",
+    "|               |",
+    "|               |",
     "|               |",
     "=================",
-    NULL
 };
 
 const Map map_1 = {
@@ -38,26 +38,34 @@ void draw_world(const Map *map, int player_x, int player_y) {
     }
 }
 
-void move_entity(Entity *entity, Map *map, int move_horizontal, int move_vertical){
+void move_entity(Entity *entity, const Map *map, int move_horizontal, int move_vertical)
+{
     int next_x = entity->x + move_horizontal;
     int next_y = entity->y + move_vertical;
 
-    // Clamp
-    if(next_y < 0 || next_y >= map-> height){
-        next_y = entity->y;
-    }
-    if(next_x < 0 || next_x >= map-> width ){
-        next_x = entity->x;
-    }
-    // Check if they're unable to move due to map bounds, if so return out
-    if(next_y == entity->y && next_x == entity->x){
-        return;
-    }
+    // Check map bounds (Clamp)
+    if (next_y < 0) next_y = 0;
+    if (next_y >= map->height) next_y = map->height - 1;
+    if (next_x < 0) next_x = 0;
+    if (next_x >= map->width) next_x = map->width - 1;
 
-    char target_tile = map->data[next_x][next_y];
-    // Check if open or grass
-    if(target_tile == ' ' || target_tile == '.'){
+    // Get the target tile
+    char target_tile = map->data[next_y][next_x];
+
+    // Check for collision
+    // Not sure which approach I like better, basically the same thing so I guess it depends on which
+    // list grows the least should be used.
+    // Blacklist: '|' & '='
+    if (target_tile != '|' && target_tile != '=')
+    {
         entity->x = next_x;
         entity->y = next_y;
     }
+
+    // Whitelist: ' ' & '.'
+    // if (target_tile == ' ' || target_tile == '.')
+    // {
+    //     entity->x = next_x;
+    //     entity->y = next_y;
+    // }
 }

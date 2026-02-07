@@ -20,12 +20,7 @@ const char *title[] = {
     "▌▌█▌▐ ▌▌█▌▛▘▛▘  ▛▌▜▘  ▐ █▌▛▘▛▛▌▌▛▌▀▌",
     "▙▘▙▖▐▖▚▘▙▖▌ ▄▌  ▙▌▐   ▐ ▙▖▌ ▌▌▌▌▌▌█▌"};
 
-void await_user()
-{
-    printf("Press Enter to continue...\n");
-    fflush(stdin);
-    getchar();
-}
+
 int main()
 {
     srand(time(NULL));
@@ -74,18 +69,10 @@ int main()
     printf("Welcome, %s! Your adventure awaits...\n", player.name);
     await_user();
 
+    // Core check, make sure player is still alive
     while (player.stats[STAT_VIT].current_value > 0)
     {
-        Item i = shop_items[2];
-        Entity e = monster_pool[0];
-        printf("\nItem: %s\n", i.name);
-        printf("Monster: %s\n", e.name);
-        if (i.effect != NULL)
-        {
-            i.effect(&player, &e, &i);
-        }
-        draw_world(ctx.current_map, player.x, player.y);
-        await_user();
+        game_loop(&ctx);
     }
 
     return 0;

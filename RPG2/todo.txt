@@ -2,8 +2,11 @@ Project mantra: "simple"
 Keep it simple silly.
 
 [] World Exploration
-    |-> [] Rendering ! in progress, currently it draws *something* to the screen
-        |-> [] Borders / Collision (maybe have wraparound?)
+    |-> [] Rendering ! in progress, currently shows where the player is and draws the entire map
+        |-> [X] Borders / Collision (maybe have wraparound?)
+        |-> [X] Player, show where the player is
+        |-> [] Enemies, show where enemies are
+        |-> [] Shop, show where shops are
         |-> [] Interactive Tiles (automatic triggers or player interaction only? Excluding random encounters)
     |-> [] Shops
         |-> [] Rendering
@@ -15,7 +18,8 @@ Keep it simple silly.
         |-> [] Rendering
         |-> [] Combat, the only currently planned random encounter
         |-> [] State Return, player is returned to the correct position and state they were before random encounter
-            |-> This should probably extend to anything that removes them from the overworl
+            |-> This should probably extend to anything that removes them from the overworld
+    |-> [X] Input, currently allows player traversal (may need to add additional actions for special tiles)
 [] Combat
     |-> [] Rendering
     |-> [] Gameplay Loop
