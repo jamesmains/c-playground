@@ -22,6 +22,8 @@ const Entity monster_pool[] = {
         .name = "Goblin",
         .gold = 5,
         .kills = 0,
+        .x =2,
+        .y =3,
         .stats = {
             [STAT_STR] = { .base_value = 5, .current_value = 5, .modifier = 0 },
             [STAT_DEX] = { .base_value = 7, .current_value = 7, .modifier = 0 },

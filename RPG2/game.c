@@ -1,6 +1,7 @@
 #include "game.h"
 #include "database.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <termio.h>
 #include <unistd.h>
 
@@ -46,9 +47,10 @@ void game_loop(GameContext *ctx)
             move_dir_x = -1;
 
         move_entity(ctx->player,ctx->current_map,move_dir_x, move_dir_y);
+        move_entity(&ctx->current_map->enemies[0].enemy_data,ctx->current_map,(rand() % 3)-1,(rand() % 3)-1);
         // Todo: move enemies after input (if any)
         draw_world(ctx->current_map, ctx->player->x, ctx->player->y);
-        printf("%d, player x: %d, player y: %d", ctx->state, ctx->player->x, ctx->player->y);
+        //printf("%d, player x: %d, player y: %d", ctx->state, ctx->player->x, ctx->player->y);
         //await_user();
     }
     // Item i = shop_items[2];

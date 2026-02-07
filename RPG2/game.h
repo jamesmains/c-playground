@@ -11,9 +11,12 @@ typedef enum {
     STATE_QUIT
 } GameState;
 
-typedef struct {
+struct Map; 
+typedef struct Map Map;
+
+typedef struct GameContext {
     Entity *player;
-    const Map *current_map;
+    Map *current_map;
     GameState state;
 } GameContext;
 

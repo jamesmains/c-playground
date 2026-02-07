@@ -62,9 +62,9 @@ int main()
     strncpy(player.name, choice, sizeof(player.name) - 1);
     GameContext ctx = {
         .player = &player,
-        .current_map = &map_1,
         .state = STATE_EXPLORE,
     };
+    set_map(&ctx, &map_1);
     SLEEP_MS(500);
     printf("Welcome, %s! Your adventure awaits...\n", player.name);
     await_user();
