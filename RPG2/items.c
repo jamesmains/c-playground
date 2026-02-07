@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-bool default_requirement_check(Entity *user, Stat *requirements[], const Item *item) {
+bool requirement_check(Entity *user, Stat *requirements[], const Item *item) {
     for (int i = 0; i < item->requirement_count; i++) {
         Requirement req = item->requirements[i];
         Stat *stat = requirements[req.stat_id];
@@ -19,7 +19,7 @@ bool default_requirement_check(Entity *user, Stat *requirements[], const Item *i
     return true;
 }
 
-int default_dice_roll(DiceRoll *roll, const Item *item) {
+int dice_roll(DiceRoll *roll, const Item *item) {
     int total = 0;
     for (int i = 0; i < roll->dice_count; i++) {
         total += (rand() % roll->dice_sides) + 1;
@@ -39,9 +39,9 @@ void physical_damage_effect(Entity *user, Entity *target, const Item *item) {
         printf("  Rolling %dd%d: ", current_roll.dice_count, current_roll.dice_sides);
 
         for (int d = 0; d < current_roll.dice_count; d++) {
-            // We reuse your dice_roll_function but for 1 die at a time to see them
+            // We use roll but for 1 die at a time to see them
             DiceRoll single = {.dice_sides = current_roll.dice_sides, .dice_count = 1};
-            int val = item->dice_roll_function(&single, item);
+            int val = dice_roll(&single, item);
             
             printf("[%d] ", val);
             roll_sum += val;

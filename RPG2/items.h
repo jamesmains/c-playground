@@ -2,12 +2,10 @@
 #define ITEMS_H
 
 #include <stdbool.h>
+#include "stats.h"
 
 struct Entity;
 typedef struct Entity Entity;
-
-struct Stat;
-typedef struct Stat Stat;
 
 struct Item;
 typedef struct Item Item;
@@ -19,8 +17,6 @@ typedef struct {
 } DiceRoll;
 
 typedef void (*ItemEffect)(Entity *user, Entity *target, const Item *item);
-typedef bool (*StatRequirement)(Entity *user, Stat *requirements[], const Item *item);
-typedef int (*DiceRollFunction)(DiceRoll *roll, const Item *item);
 
 
 typedef struct {
@@ -36,9 +32,6 @@ typedef struct Item{
 
     DiceRoll rolls[3];
     int dice_roll_count;
-
-    DiceRollFunction dice_roll_function;
-    StatRequirement stat_check;
     ItemEffect effect;
 } Item;
 

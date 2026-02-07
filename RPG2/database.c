@@ -47,8 +47,6 @@ const Item shop_items[] = {
             { .stat_id = 0, .required_value = 5 } // Strength >= 5
         },
         .requirement_count = 1,
-        .stat_check = default_requirement_check,
-        .dice_roll_function = default_dice_roll,
         .rolls = {
             { .dice_sides = 6, .dice_count = 2 } // 2d6 damage
         },
@@ -64,13 +62,24 @@ const Item shop_items[] = {
             { .stat_id = 1, .required_value = 5 }   // Intelligence >= 5
         },
         .requirement_count = 2,
-        .stat_check = default_requirement_check,
-        .dice_roll_function = default_dice_roll,
         .rolls = {
             { .dice_sides = 6, .dice_count = 1, .attribute_id = ATR_FIRE }, // 1d6 fire damage
             { .dice_sides = 4, .dice_count = 2, .attribute_id = ATR_PHYSICAL }  // 2d4 physical damage
         },
         .dice_roll_count = 2,
         .effect = physical_damage_effect,
+    },
+    // Test No Effect Item
+    {
+        .name = "Dull Coin",
+        .id = 3,
+        .requirements = {
+            { .stat_id = 0, .required_value = 0 }
+        },
+        .requirement_count = 1,
+        .rolls = {
+            { .dice_sides = 6, .dice_count = 1, .attribute_id = ATR_PHYSICAL }
+        },
+        .dice_roll_count = 1,
     }
 };

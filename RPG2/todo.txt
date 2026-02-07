@@ -1,0 +1,43 @@
+Project mantra: "simple"
+Keep it simple silly.
+
+[] World Exploration
+    |-> [] Rendering ! in progress, currently it draws *something* to the screen
+        |-> [] Borders / Collision (maybe have wraparound?)
+        |-> [] Interactive Tiles (automatic triggers or player interaction only? Excluding random encounters)
+    |-> [] Shops
+        |-> [] Rendering
+        |-> [] Buy/Sell
+            |-> [] Bounce back purchase if not enough gold
+            |-> [] Bounce back purchase if not enough inventory space
+        |-> [] Exit to previous state (what are the possible entry points? Does it need to be really robust?)
+    |-> [] Random Encounters
+        |-> [] Rendering
+        |-> [] Combat, the only currently planned random encounter
+        |-> [] State Return, player is returned to the correct position and state they were before random encounter
+            |-> This should probably extend to anything that removes them from the overworl
+[] Combat
+    |-> [] Rendering
+    |-> [] Gameplay Loop
+        |-> [] Player's Turn
+            |-> [] Base Menu
+                |-> [] Rendering, display options for 'Use Item'
+                |-> [] Return State
+                |-> [] Input
+            |-> [] Use Item
+        |-> [] Life Check, after each attack check if target is alive
+            |-> [] Enemy Death
+                |-> [] Player Wins! Goto Reward
+            |-> [] Player Death
+                |-> [] Player Loses... Goto Gameover
+    |-> [] Input
+        |-> [] Only Allowed on Player's Turn
+        |-> [] Bounces back if input is invalid
+        |-> [] Bounces back if action is invalid (i.e. not enough mana to cast spell)
+[] Towns, this may only contain shops and maybe some random dialogue. Nothing too heavy planned at the moment
+    |-> [] Rendering
+    |-> [] State Return
+    |-> [] Input
+[] Gameover
+    |-> [] Rendering
+    |-> [] Input (just 'enter to continue')

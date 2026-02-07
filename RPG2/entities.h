@@ -19,6 +19,8 @@ typedef struct Entity{
     int gold;
     int kills;
     int level;
+    int x;
+    int y;
     int current_exp;
     int exp_to_next_level;
     Item inventory[INVENTORY_SIZE];
