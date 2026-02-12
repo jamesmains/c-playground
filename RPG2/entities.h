@@ -11,6 +11,8 @@ struct Entity;
 typedef struct Entity Entity;
 
 //typedef void (*EntityStats)(Stat *stats[], const Entity *entity);
+typedef void (*EntityCombatLogic)(Entity *user, Entity *target, const Item *item);
+
 
 typedef struct Entity{
     char name[32];
@@ -24,7 +26,12 @@ typedef struct Entity{
     int current_exp;
     int exp_to_next_level;
     Item inventory[INVENTORY_SIZE];
+    EntityCombatLogic combat_logic;
 } Entity;
 
 void take_damage(Entity *target, int damage, int attribute_id);
+void player_combat_logic(Entity *user, Entity *target, const Item *item);
+void default_ai_combat_logic(Entity *user, Entity *target, const Item *item);
+void remove_item_at_index(Entity *p, int index);
+void add_item(Entity *p, Item item);
 #endif

@@ -16,6 +16,7 @@ typedef struct Map Map;
 
 typedef struct GameContext {
     Entity *player;
+    int current_enemy_index;
     Map *current_map;
     GameState state;
 } GameContext;

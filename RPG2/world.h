@@ -1,6 +1,6 @@
 #ifndef WORLD_H
 #define WORLD_H
-#define ENEMY_PER_FLOOR 1
+#define ENEMY_PER_FLOOR 3
 
 #include "entities.h"
 #include "game.h"

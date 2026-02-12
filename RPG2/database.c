@@ -17,6 +17,57 @@ const char *attribute_names[ATR_COUNT][1] = {
     }
 };
 
+const Item shop_items[] = {
+    // Broadsword
+    {
+        .name = "Broadsword",
+        .id = 1,
+        .requirements = {
+            { .stat_id = 0, .required_value = 5 } // Strength >= 5
+        },
+        .requirement_count = 1,
+        .rolls = {
+            { .dice_sides = 6, .dice_count = 2 } // 2d6 damage
+        },
+        .dice_roll_count = 1,
+        .effect = physical_damage_effect,
+        .max_uses = 75,
+        .uses_remaining = 75,
+        .use_type = DURABLE,
+    },
+    // Flaming Sword
+    {
+        .name = "Flaming Sword",
+        .id = 2,
+        .requirements = {
+            { .stat_id = 0, .required_value = 10 }, // Strength >= 10
+            { .stat_id = 1, .required_value = 5 }   // Intelligence >= 5
+        },
+        .requirement_count = 2,
+        .rolls = {
+            { .dice_sides = 6, .dice_count = 1, .attribute_id = ATR_FIRE }, // 1d6 fire damage
+            { .dice_sides = 4, .dice_count = 2, .attribute_id = ATR_PHYSICAL }  // 2d4 physical damage
+        },
+        .dice_roll_count = 2,
+        .effect = physical_damage_effect,
+        .max_uses = 75,
+        .uses_remaining = 75,
+        .use_type = DURABLE,
+    },
+    // Test No Effect Item
+    {
+        .name = "Dull Coin",
+        .id = 3,
+        .requirements = {
+            { .stat_id = 0, .required_value = 0 }
+        },
+        .requirement_count = 1,
+        .rolls = {
+            { .dice_sides = 6, .dice_count = 1, .attribute_id = ATR_PHYSICAL }
+        },
+        .dice_roll_count = 1,
+    }
+};
 const Entity monster_pool[] = {
     {
         .name = "Goblin",
@@ -37,51 +88,7 @@ const Entity monster_pool[] = {
             [ATR_ICE] = { .resistance = 1, .weakness = 1 },
             [ATR_LIGHTNING] = { .resistance = 0, .weakness = 2 },
         },
+        .combat_logic = default_ai_combat_logic,
+        .inventory[0] = shop_items[0],
     },
-};
-
-const Item shop_items[] = {
-    // Broadsword
-    {
-        .name = "Broadsword",
-        .id = 1,
-        .requirements = {
-            { .stat_id = 0, .required_value = 5 } // Strength >= 5
-        },
-        .requirement_count = 1,
-        .rolls = {
-            { .dice_sides = 6, .dice_count = 2 } // 2d6 damage
-        },
-        .dice_roll_count = 1,
-        .effect = physical_damage_effect,
-    },
-    // Flaming Sword
-    {
-        .name = "Flaming Sword",
-        .id = 2,
-        .requirements = {
-            { .stat_id = 0, .required_value = 10 }, // Strength >= 10
-            { .stat_id = 1, .required_value = 5 }   // Intelligence >= 5
-        },
-        .requirement_count = 2,
-        .rolls = {
-            { .dice_sides = 6, .dice_count = 1, .attribute_id = ATR_FIRE }, // 1d6 fire damage
-            { .dice_sides = 4, .dice_count = 2, .attribute_id = ATR_PHYSICAL }  // 2d4 physical damage
-        },
-        .dice_roll_count = 2,
-        .effect = physical_damage_effect,
-    },
-    // Test No Effect Item
-    {
-        .name = "Dull Coin",
-        .id = 3,
-        .requirements = {
-            { .stat_id = 0, .required_value = 0 }
-        },
-        .requirement_count = 1,
-        .rolls = {
-            { .dice_sides = 6, .dice_count = 1, .attribute_id = ATR_PHYSICAL }
-        },
-        .dice_roll_count = 1,
-    }
 };

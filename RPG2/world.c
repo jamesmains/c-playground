@@ -4,13 +4,13 @@
 const char *world_1[] = {
     "=================",
     "|               |",
-    "|               |",
+    "|       M       |",
     "|               |",
     "|  |======|     |",
     "|               |",
     "|               |",
-    "|               |",
-    "|        M      |",
+    "| M             |",
+    "|            M  |",
     "=================",
 };
 
@@ -22,7 +22,7 @@ Map map_1 = {
 };
 
 void draw_world(const Map *map, int player_x, int player_y) {
-    //printf("\033[H\033[J");
+    printf("\033[H\033[J");
     for(int y = 0; y < map->height; y++) {
         for (int x = 0; x < map->width; x++){
             if(x == player_x && y == player_y){
@@ -97,8 +97,8 @@ void set_map(GameContext *ctx, Map *map){
                 int enemy_index = map->enemy_count;
 
                 map->enemies[enemy_index].enemy_data = monster_pool[0];
-                map->enemies[enemy_index].x = x;
-                map->enemies[enemy_index].x = x;
+                map->enemies[enemy_index].enemy_data.x = x;
+                map->enemies[enemy_index].enemy_data.y = y;
                 map->enemies[enemy_index].is_alive = true;
 
                 map->enemy_count++;

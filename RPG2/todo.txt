@@ -5,7 +5,7 @@ Keep it simple silly.
     |-> [] Rendering ! in progress, currently shows where the player is and draws the entire map
         |-> [X] Borders / Collision (maybe have wraparound?)
         |-> [X] Player, show where the player is
-        |-> [] Enemies, show where enemies are
+        |-> [X] Enemies, show where enemies are
         |-> [] Shop, show where shops are
         |-> [] Interactive Tiles (automatic triggers or player interaction only? Excluding random encounters)
     |-> [] Shops
@@ -25,23 +25,18 @@ Keep it simple silly.
     |-> [] Gameplay Loop
         |-> [] Player's Turn
             |-> [] Base Menu
-                |-> [] Rendering, display options for 'Use Item'
-                |-> [] Return State
-                |-> [] Input
-            |-> [] Use Item
+                |-> [X] Rendering, display options for 'Use Item'
+                |-> [X] Input
+            |-> [X] Use Item
         |-> [] Life Check, after each attack check if target is alive
             |-> [] Enemy Death
                 |-> [] Player Wins! Goto Reward
             |-> [] Player Death
                 |-> [] Player Loses... Goto Gameover
     |-> [] Input
-        |-> [] Only Allowed on Player's Turn
-        |-> [] Bounces back if input is invalid
+        |-> [X] Only Allowed on Player's Turn
+        |-> [X] Bounces back if input is invalid
         |-> [] Bounces back if action is invalid (i.e. not enough mana to cast spell)
-[] Towns, this may only contain shops and maybe some random dialogue. Nothing too heavy planned at the moment
-    |-> [] Rendering
-    |-> [] State Return
-    |-> [] Input
 [] Gameover
     |-> [] Rendering
     |-> [] Input (just 'enter to continue')

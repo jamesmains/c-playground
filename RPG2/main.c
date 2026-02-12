@@ -48,7 +48,7 @@ int main()
             [STAT_DEX] = {.base_value = 5, .current_value = 5, .modifier = 0},
             [STAT_INT] = {.base_value = 5, .current_value = 5, .modifier = 0},
             [STAT_END] = {.base_value = 5, .current_value = 5, .modifier = 0},
-            [STAT_VIT] = {.base_value = 5, .current_value = 5, .modifier = 0},
+            [STAT_VIT] = {.base_value = 25, .current_value = 25, .modifier = 0},
         },
         .gold = 10,
         .kills = 0,
@@ -58,6 +58,9 @@ int main()
         .current_exp = 0,
         .exp_to_next_level = 100,
         .inventory[0] = shop_items[0],
+        .inventory[1] = shop_items[1],
+        .inventory[2] = shop_items[2],
+        .combat_logic = player_combat_logic,
     };
     strncpy(player.name, choice, sizeof(player.name) - 1);
     GameContext ctx = {

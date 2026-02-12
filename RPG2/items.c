@@ -53,6 +53,5 @@ void physical_damage_effect(Entity *user, Entity *target, const Item *item) {
     }
 
     // Now, actually modify the target
-    take_damage(target, total_damage, item->rolls[0].attribute_id);
-    
+    take_damage(target, total_damage, item->rolls[0].attribute_id);    
 }
