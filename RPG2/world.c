@@ -15,16 +15,22 @@ const char *world_1[] = {
 };
 
 Map map_1 = {
+    .map_name = "Gallery of Termina",
     .data = world_1,
     .height = 10,
     .width = 17,
     .map_name = "Test Dungeon"
 };
 
-void draw_world(const Map *map, int player_x, int player_y) {
+void draw_world(GameContext *ctx){
+    Map *map = ctx->current_map;
+    int player_x = ctx->player->x;
+    int player_y = ctx->player->y;
     printf("\033[H\033[J");
     for(int y = 0; y < map->height; y++) {
+        
         for (int x = 0; x < map->width; x++){
+            
             if(x == player_x && y == player_y){
                 printf("@");
             } else {
@@ -42,11 +48,23 @@ void draw_world(const Map *map, int player_x, int player_y) {
                     printf("%c", (tile == 'M') ? ' ' : tile);
                 }
             }
+            if (y == 1 && x == map->width - 1) {
+            printf(" ~[%s]~", map->map_name);
+            }
+            else if (y == 2 && x == map->width - 1) {
+                printf(" %s HP: %d/%d",ctx->player->name, ctx->player->stats[STAT_VIT].current_value, ctx->player->stats[STAT_VIT].base_value);
+            }
+            else if (y == 3 && x == map->width - 1) {
+                printf(" Gold: %d", ctx->player->gold);
+            }
+            else if (y == 4 && x == map->width - 1) {
+                printf(" Level: %d", ctx->player->level);
+            }
+            else if (y == 5 && x == map->width - 1) {
+                printf(" EXP: %d/%d", ctx->player->current_exp, ctx->player->exp_to_next_level);
+            }
         }
         printf("\n");
-    }
-    for(int m = 0; m < 1; m++){
-        printf("Enemy X: %d, Enemy Y: %d\n", map->enemies[0].enemy_data.x, map->enemies[0].enemy_data.y);
     }
 }
 

@@ -28,7 +28,7 @@ typedef struct Entity{
     Item inventory[INVENTORY_SIZE];
     EntityCombatLogic combat_logic;
 } Entity;
-
+void win_match(Entity* player, Entity* opponent); // Using Player and Opponent terminology for clarity as only the player should hit this, but they are both just Entities
 void take_damage(Entity *target, int damage, int attribute_id);
 void player_combat_logic(Entity *user, Entity *target, const Item *item);
 void default_ai_combat_logic(Entity *user, Entity *target, const Item *item);

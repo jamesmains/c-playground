@@ -65,7 +65,7 @@ void handle_ai(GameContext *ctx) {
 
 void handle_explore(GameContext *ctx)
 {
-    draw_world(ctx->current_map, ctx->player->x, ctx->player->y);
+    draw_world(ctx);
 
     // Handle player's turn
     get_player_input(ctx);
@@ -104,6 +104,15 @@ void handle_combat(GameContext *ctx){
         printf("%s defeated!\n", ctx->current_map->enemies[ctx->current_enemy_index].enemy_data.name);
         ctx->state = STATE_EXPLORE;
         ctx->current_map->enemies[ctx->current_enemy_index].is_alive = false;
+        ctx->player->gold += ctx->current_map->enemies[ctx->current_enemy_index].enemy_data.gold;
+        ctx->player->kills += 1;
+        ctx->player->current_exp += 20; // Arbitrary exp gain for now
+        if(ctx->player->current_exp >= ctx->player->exp_to_next_level){
+            ctx->player->current_exp -= ctx->player->exp_to_next_level;
+            ctx->player->level += 1;
+            ctx->player->exp_to_next_level += 50; // Arbitrary increase for now
+            printf("You leveled up! You are now level %d!\n", ctx->player->level);
+        }
         await_user();
         return;
     }

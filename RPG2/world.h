@@ -28,7 +28,7 @@ typedef struct Map{
 
 extern Map map_1;
 
-void draw_world(const Map *map, int player_x, int player_y);
+void draw_world(GameContext *ctx);
 void move_entity(Entity *entity, const Map *map, int move_horizontal, int move_vertical);
 void set_map(GameContext *ctx, Map *map);
 #endif

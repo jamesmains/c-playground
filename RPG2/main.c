@@ -28,11 +28,11 @@ int main()
     for (int i = 0; i < 3; i++)
     {
         // Todo: uncomment for full effect
-        //SLEEP_MS(500);
+        SLEEP_MS(500);
         printf("%s\n", title[i]);
     }
     // Todo: uncomment for full effect
-    //SLEEP_MS(500);
+    SLEEP_MS(500);
     printf("What is your name?\n");
     char choice[32];
     scanf("%31s", choice);

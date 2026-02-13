@@ -55,6 +55,18 @@ void player_combat_logic(Entity *user, Entity *target, const Item *item) {
     }
 }
 
+void win_match(Entity* player, Entity* opponent) {
+    player->gold += opponent->gold;
+        player->kills += 1;
+        player->current_exp += 60; // Arbitrary exp gain for now
+        if(player->current_exp >= player->exp_to_next_level){
+            player->current_exp -= player->exp_to_next_level;
+            player->level += 1;
+            player->exp_to_next_level += 50; // Arbitrary increase for now
+            printf("You leveled up! You are now level %d!\n", player->level);
+        }
+}
+
 void default_ai_combat_logic(Entity *user, Entity *target, const Item *item){
     // Simple AI: just use the first item in inventory if available
     for(int i = 0; i < INVENTORY_SIZE; i++){
