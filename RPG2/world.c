@@ -1,39 +1,24 @@
 #include "world.h"
 #include <stdio.h>
 #include "database.h"
-const char *world_1[] = {
-    "=================",
-    "|               |",
-    "|       M       |",
-    "|               |",
-    "|  |======|     |",
-    "|               |",
-    "|               |",
-    "| M             |",
-    "|            M  |",
-    "=================",
-};
-
-Map map_1 = {
-    .map_name = "Gallery of Termina",
-    .data = world_1,
-    .height = 10,
-    .width = 17,
-    .map_name = "Test Dungeon"
-};
 
 void draw_world(GameContext *ctx){
-    Map *map = ctx->current_map;
+    Map *map = &ctx->current_map;
     int player_x = ctx->player->x;
     int player_y = ctx->player->y;
     printf("\033[H\033[J");
+    printf(" ~[%s]~\n", map->map_name);
     for(int y = 0; y < map->height; y++) {
         
         for (int x = 0; x < map->width; x++){
             
             if(x == player_x && y == player_y){
                 printf("@");
-            } else {
+            } 
+            else if(x == map->doors[0].x && y == map->doors[0].y){
+                printf("D");
+            }
+            else {
                 bool monster_here = false;
                 for (int e = 0; e < map->enemy_count; e++){
                     if(map->enemies[e].enemy_data.x == x && map->enemies[e].enemy_data.y == y && map->enemies[e].is_alive == true){
@@ -48,20 +33,14 @@ void draw_world(GameContext *ctx){
                     printf("%c", (tile == 'M') ? ' ' : tile);
                 }
             }
-            if (y == 1 && x == map->width - 1) {
-            printf(" ~[%s]~", map->map_name);
+            if (y == 0 && x == map->width - 1) {
+                printf(" %s HP: %d/%d, Gold: %d",ctx->player->name, ctx->player->stats[STAT_VIT].current_value, ctx->player->stats[STAT_VIT].base_value, ctx->player->gold);
             }
+            else if (y == 1 && x == map->width - 1) {
+                printf(" Level: %d | EXP: %d/%d", ctx->player->level, ctx->player->current_exp, ctx->player->exp_to_next_level);
+            } 
             else if (y == 2 && x == map->width - 1) {
-                printf(" %s HP: %d/%d",ctx->player->name, ctx->player->stats[STAT_VIT].current_value, ctx->player->stats[STAT_VIT].base_value);
-            }
-            else if (y == 3 && x == map->width - 1) {
-                printf(" Gold: %d", ctx->player->gold);
-            }
-            else if (y == 4 && x == map->width - 1) {
-                printf(" Level: %d", ctx->player->level);
-            }
-            else if (y == 5 && x == map->width - 1) {
-                printf(" EXP: %d/%d", ctx->player->current_exp, ctx->player->exp_to_next_level);
+                printf(" STR: %d | DEX: %d | INT: %d | END: %d", ctx->player->stats[STAT_STR].current_value, ctx->player->stats[STAT_DEX].current_value, ctx->player->stats[STAT_INT].current_value, ctx->player->stats[STAT_END].current_value);
             }
         }
         printf("\n");
@@ -102,23 +81,24 @@ void move_entity(Entity *entity, const Map *map, int move_horizontal, int move_v
     // }
 }
 
-void set_map(GameContext *ctx, Map *map){
-    // Set map
+void set_map(GameContext *ctx, Map map){
     ctx->current_map = map;
-    // Setup Map
+    init_map(ctx);
+}
 
+void init_map(GameContext *ctx){
     // Initialize enemies
+    Map *map = &ctx->current_map;
     map->enemy_count = 0;
     for (int y = 0; y < map->height; y++){
         for (int x = 0; x < map->width; x++){
             if(map->data[y][x] == 'M' && map->enemy_count < ENEMY_PER_FLOOR){
                 int enemy_index = map->enemy_count;
 
-                map->enemies[enemy_index].enemy_data = monster_pool[0];
+                map->enemies[enemy_index].enemy_data = map->enemy_pool[0];
                 map->enemies[enemy_index].enemy_data.x = x;
                 map->enemies[enemy_index].enemy_data.y = y;
                 map->enemies[enemy_index].is_alive = true;
-
                 map->enemy_count++;
             }
         }

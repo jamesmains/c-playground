@@ -28,11 +28,11 @@ int main()
     for (int i = 0; i < 3; i++)
     {
         // Todo: uncomment for full effect
-        SLEEP_MS(500);
+        // SLEEP_MS(500);
         printf("%s\n", title[i]);
     }
     // Todo: uncomment for full effect
-    SLEEP_MS(500);
+    // SLEEP_MS(500);
     printf("What is your name?\n");
     char choice[32];
     scanf("%31s", choice);
@@ -45,7 +45,7 @@ int main()
         },
         .stats = {
             [STAT_STR] = {.base_value = 5, .current_value = 5, .modifier = 0},
-            [STAT_DEX] = {.base_value = 5, .current_value = 5, .modifier = 0},
+            [STAT_DEX] = {.base_value = 20, .current_value = 20, .modifier = 0},
             [STAT_INT] = {.base_value = 5, .current_value = 5, .modifier = 0},
             [STAT_END] = {.base_value = 5, .current_value = 5, .modifier = 0},
             [STAT_VIT] = {.base_value = 25, .current_value = 25, .modifier = 0},
@@ -56,7 +56,7 @@ int main()
         .x = 4,
         .y = 4,
         .current_exp = 0,
-        .exp_to_next_level = 100,
+        .exp_to_next_level = player.level * player.level * NEW_LEVEL_EXP_INCREMENT,
         .inventory[0] = shop_items[0],
         .inventory[1] = shop_items[1],
         .inventory[2] = shop_items[2],
@@ -67,7 +67,7 @@ int main()
         .player = &player,
         .state = STATE_EXPLORE,
     };
-    set_map(&ctx, &map_1);
+    set_map(&ctx, maps[0]);
     SLEEP_MS(500);
     printf("Welcome, %s! Your adventure awaits...\n", player.name);
     await_user();

@@ -1,6 +1,7 @@
 #ifndef ENTITIES_H
 #define ENTITIES_H
 #define INVENTORY_SIZE 20
+#define NEW_LEVEL_EXP_INCREMENT 50
 
 // Include because full definition of Item is needed in Entity struct
 #include "items.h"
