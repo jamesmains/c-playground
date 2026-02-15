@@ -109,6 +109,26 @@ const Entity monster_pool[] = {
         },
         .combat_logic = default_ai_combat_logic,
         .inventory[0] = shop_items[1],
+    },
+    {
+        .name = "Troll",
+        .gold = 20,
+        .level = 3, // May need to adjust this based on room or player level?
+        .stats = {
+            [STAT_STR] = { .base_value = 12, .current_value = 12, .modifier = 0 },
+            [STAT_DEX] = { .base_value = 4, .current_value = 4, .modifier = 0 },
+            [STAT_INT] = { .base_value = 3, .current_value = 3, .modifier = 0 },
+            [STAT_END] = { .base_value = 8, .current_value = 8, .modifier = 0 },
+            [STAT_VIT] = { .base_value = 20, .current_value = 20, .modifier = 0 },
+        },
+        .attributes = {
+            [ATR_FIRE] = { .resistance = 3, .weakness = 0 },
+            [ATR_POISON] = { .resistance = 0, .weakness = 4 },
+            [ATR_ICE] = { .resistance = 2, .weakness = 1 },
+            [ATR_LIGHTNING] = { .resistance = 1, .weakness = 2 },
+        },
+        .combat_logic = default_ai_combat_logic,
+        .inventory[0] = shop_items[2],
     }
 };
 
@@ -131,10 +151,13 @@ const Map maps[] = {
         .width = 17,
         .enemy_pool = {
             monster_pool[0],
+            monster_pool[1],
         },
+        .enemy_pool_count = 2,
         .doors = {
-            { .x = 8, .y = 0, .leads_to_map_id = 1, .dest_x = 1, .dest_y = 1 },
-        }
+            { .x = 16, .y = 4, .leads_to_map_id = 1, .dest_x = 1, .dest_y = 7 },
+        },
+        .door_count = 1,
     },
     {
         .map_name = "Hall of Heroes",
@@ -155,8 +178,36 @@ const Map maps[] = {
         .enemy_pool = {
             monster_pool[0],
         },
+        .enemy_pool_count = 1,
         .doors = {
-            { .x = 8, .y = 9, .leads_to_map_id = 0, .dest_x = 8, .dest_y = 1 },
-        }
+            { .x = 0, .y = 7, .leads_to_map_id = 0, .dest_x = 15, .dest_y = 4 },
+            { .x = 21, .y = 0, .leads_to_map_id = 2, .dest_x = 8, .dest_y = 8 },
+        },
+        .door_count = 2,
+    },
+    {
+        .map_name = "Chamber of Big Bad",
+        .data = (const char*[]){
+            "=================",
+            "|               |",
+            "|       M       |",
+            "|               |",
+            "|               |",
+            "|               |",
+            "|               |",
+            "|               |",
+            "|               |",
+            "=================",
+        },
+        .height = 10,
+        .width = 17,
+        .enemy_pool = {
+            monster_pool[2],
+        },
+        .enemy_pool_count = 1,
+        .doors = {
+            { .x = 8, .y = 9, .leads_to_map_id = 1, .dest_x = 21, .dest_y = 1 },
+        },
+        .door_count = 1,
     }
 };

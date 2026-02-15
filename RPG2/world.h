@@ -23,12 +23,14 @@ typedef struct Map{
     int width;
     int height;
     Entity enemy_pool[ENEMY_PER_FLOOR];
+    int enemy_pool_count;
     const char *map_name;
 
     MapEnemy enemies[ENEMY_PER_FLOOR];
     int enemy_count;
 
     Door doors[4]; // Up to 4 doors per map to keep it simple, can be empty if no doors
+    int door_count;
 } Map;
 
 #include "game.h"

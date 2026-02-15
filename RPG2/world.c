@@ -1,6 +1,7 @@
 #include "world.h"
 #include <stdio.h>
 #include "database.h"
+#include <stdlib.h>
 
 void draw_world(GameContext *ctx){
     Map *map = &ctx->current_map;
@@ -15,11 +16,10 @@ void draw_world(GameContext *ctx){
             if(x == player_x && y == player_y){
                 printf("@");
             } 
-            else if(x == map->doors[0].x && y == map->doors[0].y){
-                printf("D");
-            }
             else {
                 bool monster_here = false;
+                bool door_here = false;
+
                 for (int e = 0; e < map->enemy_count; e++){
                     if(map->enemies[e].enemy_data.x == x && map->enemies[e].enemy_data.y == y && map->enemies[e].is_alive == true){
                         printf("M");
@@ -28,11 +28,22 @@ void draw_world(GameContext *ctx){
                     }
                 }
 
-                if(!monster_here){
+                for (int d = 0; d < map->door_count; d++)
+                {
+                    if (map->doors[d].x == x && map->doors[d].y == y)
+                    {
+                        printf("D");
+                        door_here = true;
+                        break;
+                    }
+                }
+
+                if(!monster_here && !door_here){
                     char tile = map->data[y][x];
                     printf("%c", (tile == 'M') ? ' ' : tile);
                 }
             }
+            
             if (y == 0 && x == map->width - 1) {
                 printf(" %s HP: %d/%d, Gold: %d",ctx->player->name, ctx->player->stats[STAT_VIT].current_value, ctx->player->stats[STAT_VIT].base_value, ctx->player->gold);
             }
@@ -95,7 +106,7 @@ void init_map(GameContext *ctx){
             if(map->data[y][x] == 'M' && map->enemy_count < ENEMY_PER_FLOOR){
                 int enemy_index = map->enemy_count;
 
-                map->enemies[enemy_index].enemy_data = map->enemy_pool[0];
+                map->enemies[enemy_index].enemy_data = map->enemy_pool[(rand() % map->enemy_pool_count)];
                 map->enemies[enemy_index].enemy_data.x = x;
                 map->enemies[enemy_index].enemy_data.y = y;
                 map->enemies[enemy_index].is_alive = true;

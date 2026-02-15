@@ -106,12 +106,16 @@ void default_ai_combat_logic(Entity *user, Entity *target, const Item *item)
         if (user->inventory[i].id != 0)
         {
             Item *item = &user->inventory[i];
-            item->effect(user, target, item);
-            item->uses_remaining--;
-            if (item->uses_remaining <= 0)
+            if (item->effect != NULL)
             {
-                // Remove item from inventory
-                remove_item_at_index(user, i + 1);
+                item->effect(user, target, item);
+                item->uses_remaining--;
+
+                if (item->uses_remaining <= 0)
+                {
+                    // Using your current function logic (1-based)
+                    remove_item_at_index(user, i + 1);
+                }
             }
             return;
         }
@@ -155,6 +159,7 @@ void remove_item_at_index(Entity *p, int index)
         p->inventory[i] = p->inventory[i + 1];
     }
     p->inventory[INVENTORY_SIZE - 1].id = 0; // Clear the last slot
+    printf("Item removed. Inventory shifted.\n");
 }
 
 void add_item(Entity *p, Item item)
