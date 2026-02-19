@@ -1,10 +1,8 @@
 #ifndef STATS_H
 #define STATS_H
+#define MINIMUM_STAT_MODIFIER -20
 #define HEALTH_STAT_ID 4
-#define min_modifier(stat, min) modifier(stat) < min ? modifier(stat) : min
-#define modifier(stat) ((stat.base_value - 10) / 2)
-
-
+#define modifier(stat) (((stat).base_value - 10) / 2)
 // Todo: need to find a use for these stats...
 typedef enum {
     STAT_STR, // 0  | Used for physical damage and maybe some item requirements
@@ -36,5 +34,6 @@ typedef struct Attribute{
     int resistance;     // Resistance value against this attribute
     int weakness;       // Weakness value against this attribute
 } Attribute;
+
 
 #endif

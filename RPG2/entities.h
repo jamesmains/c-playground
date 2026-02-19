@@ -35,4 +35,5 @@ void player_combat_logic(Entity *user, Entity *target, const Item *item);
 void default_ai_combat_logic(Entity *user, Entity *target, const Item *item);
 void remove_item_at_index(Entity *p, int index);
 void add_item(Entity *p, Item item);
+int get_stat_modifier(const Entity *entity, StatType stat_id, int min);
 #endif

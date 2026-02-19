@@ -3,7 +3,7 @@
 #define ENEMY_PER_FLOOR 3
 
 #include "entities.h"
-
+#include "shop.h"
 
 typedef struct {
     Entity enemy_data;
@@ -31,6 +31,8 @@ typedef struct Map{
 
     Door doors[4]; // Up to 4 doors per map to keep it simple, can be empty if no doors
     int door_count;
+
+    int shop_id; // Optional shop on the map, can be empty if no shop
 } Map;
 
 #include "game.h"

@@ -4,9 +4,11 @@
 #include "world.h"
 #include "items.h"
 #include "stats.h"
+#include "shop.h"
 
 extern const Item all_items[];
 extern const Entity monster_pool[];
+extern const Shop shops[];
 extern const Map maps[];
 extern const char *attribute_names[ATR_COUNT][1];
 

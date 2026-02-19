@@ -43,14 +43,12 @@ void player_combat_logic(Entity *user, Entity *target, const Item *item)
         if (scanf("%d", &choice) != 1)
         {
             // If user typed a letter, clear the garbage out of the buffer
-            while (getchar() != '\n')
-                ;
+            while (getchar() != '\n');
             printf("Invalid input. Enter a number.\n");
             continue;
         }
         // Also clear the newline after a successful number entry
-        while (getchar() != '\n')
-            ;
+        while (getchar() != '\n');
 
         if (choice >= 0 && choice < max_items)
         {
@@ -66,6 +64,11 @@ void player_combat_logic(Entity *user, Entity *target, const Item *item)
                     // Using your current function logic (1-based)
                     remove_item_at_index(user, choice + 1);
                 }
+            }
+            else
+            {
+                printf("%s has no effect!\n", selected->name);
+                choice = -1; // Keep looping
             }
         }
         else
@@ -180,4 +183,17 @@ void add_item(Entity *p, Item item)
         }
     }
     printf("%s's inventory is full! Cannot add %s.\n", p->name, item.name);
+}
+
+int get_stat_modifier(const Entity *entity, StatType stat_id, int min)
+{
+    if (stat_id < 0 || stat_id >= STAT_COUNT)
+    {
+        printf("Invalid stat ID!\n");
+        return 0;
+    }
+    int mod = modifier(entity->stats[stat_id]);
+    if (mod < min)
+        return min;
+    return mod;
 }

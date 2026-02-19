@@ -1,7 +1,7 @@
 # Variables to make changes easier later
 CC = gcc
 CFLAGS = -Wall -g
-OBJ = main.o entities.o database.o items.o world.o game.o
+OBJ = main.o entities.o database.o items.o world.o game.o shop.o combat.o explore.o
 
 # The name of your final game
 TARGET = rpg2

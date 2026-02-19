@@ -27,11 +27,8 @@ int dice_roll(DiceRoll *roll, const Item *item) {
     return total;
 }
 
-void physical_damage_effect(Entity *user, Entity *target, const Item *item) {
-    int total_damage = 0;
-
-    printf("\n%s attacks %s with %s!\n", user->name, target->name, item->name);
-
+int roll_all_dice(const Item *item) {
+    int total = 0;
     for (int j = 0; j < item->dice_roll_count; j++) {
         int roll_sum = 0;
         DiceRoll current_roll = item->rolls[j];
@@ -46,13 +43,38 @@ void physical_damage_effect(Entity *user, Entity *target, const Item *item) {
             printf("[%d] ", val);
             roll_sum += val;
         }
-        total_damage += roll_sum;
-        
+        total += roll_sum;
         printf("| Subtotal: %d\n", roll_sum);
     }
+    return total;
+}
+
+void physical_damage_effect(Entity *user, Entity *target, const Item *item) {
+    int total_damage = 0;
+    printf("\033[H\033[J");
+    printf("\n%s attacks %s with %s!\n", user->name, target->name, item->name);
+
+    // Get base total damage from dice rolls
+    total_damage += roll_all_dice(item);
 
     // Allow str mod to go negative because maybe the creature is weak but still needs to attack.
-    total_damage += min_modifier(user->stats[STAT_STR],0);
+    total_damage += get_stat_modifier(user, STAT_STR, MINIMUM_STAT_MODIFIER);
+
+    // Now, actually modify the target
+    take_damage(target, total_damage, item->rolls[0].attribute_id);
+}
+
+void magic_damage_effect(Entity *user, Entity *target, const Item *item) {
+    int total_damage = 0;
+    printf("\033[H\033[J");
+    printf("\n%s casts %s on %s!\n", user->name, item->name, target->name);
+
+    // Get base total damage from dice rolls
+    total_damage += roll_all_dice(item);
+
+    // Allow str mod to go negative because maybe the creature is weak but still needs to attack.
+    total_damage += get_stat_modifier(user, STAT_INT, MINIMUM_STAT_MODIFIER);
+    
     // Now, actually modify the target
     take_damage(target, total_damage, item->rolls[0].attribute_id);
 }

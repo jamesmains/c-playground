@@ -33,6 +33,7 @@ typedef struct {
 typedef struct Item{
     char name[32];
     int id;
+    int item_shop_cost;
     Requirement requirements[3];
     int requirement_count;
 
@@ -52,5 +53,6 @@ void use_item(const Item *item, Entity *user, Entity *target);
 bool default_requirement_check(Entity *user, Stat *requirements[], const Item *item);
 int default_dice_roll(DiceRoll *roll, const Item *item);
 void physical_damage_effect(Entity *user, Entity *target, const Item *item);
+void magic_damage_effect(Entity *user, Entity *target, const Item *item);
 
 #endif

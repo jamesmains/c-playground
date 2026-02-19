@@ -23,6 +23,7 @@ const Item all_items[] = {
     {
         .name = "Broadsword",
         .id = 1,
+        .item_shop_cost = 10,
         .requirements = {
             { .stat_id = 0, .required_value = 5 } // Strength >= 5
         },
@@ -40,6 +41,7 @@ const Item all_items[] = {
     {
         .name = "Flaming Sword",
         .id = 2,
+        .item_shop_cost = 25,
         .requirements = {
             { .stat_id = 0, .required_value = 10 }, // Strength >= 10
             { .stat_id = 1, .required_value = 5 }   // Intelligence >= 5
@@ -55,18 +57,22 @@ const Item all_items[] = {
         .uses_remaining = 10,
         .use_type = DURABLE,
     },
-    // Test No Effect Item
     {
-        .name = "Dull Coin",
+        .name = "Fireball Scroll",
         .id = 3,
+        .item_shop_cost = 15,
         .requirements = {
-            { .stat_id = 0, .required_value = 0 }
+            { .stat_id = 1, .required_value = 5 }   // Intelligence >= 5
         },
         .requirement_count = 1,
         .rolls = {
-            { .dice_sides = 6, .dice_count = 1, .attribute_id = ATR_PHYSICAL }
+            { .dice_sides = 8, .dice_count = 3, .attribute_id = ATR_FIRE } // 3d8 fire damage
         },
         .dice_roll_count = 1,
+        .effect = magic_damage_effect,
+        .max_uses = 5,
+        .uses_remaining = 5,
+        .use_type = CASTS,
     }
 };
 const Entity monster_pool[] = {
@@ -133,6 +139,14 @@ const Entity monster_pool[] = {
     }
 };
 
+const Shop shops[] = {
+    {
+        .name = "Bob's Emporium",
+        .description = "A customer! Please, look around!",
+        .shop_items = { all_items[0], all_items[1], all_items[2] },
+    }
+};
+
 const Map maps[] = {
     {
         .map_name = "Gallery of Termina",
@@ -159,6 +173,7 @@ const Map maps[] = {
             { .x = 16, .y = 4, .leads_to_map_id = 1, .dest_x = 1, .dest_y = 7 },
         },
         .door_count = 1,
+        .shop_id = -1, // No shop on this map
     },
     {
         .map_name = "Hall of Heroes",
@@ -166,7 +181,7 @@ const Map maps[] = {
             "============|     |======|         ",
             "|           |     |      |         ",
             "|           |===  ==|  |==         ",
-            "|               |   |  |           ",
+            "|     $         |   |  |           ",
             "|  |======|     |====  ============",
             "|                                  ",
             "|                                  ",
@@ -185,6 +200,7 @@ const Map maps[] = {
             { .x = 21, .y = 0, .leads_to_map_id = 2, .dest_x = 8, .dest_y = 8 },
         },
         .door_count = 2,
+        .shop_id = 0, // Bob's Emporium is on this map
     },
     {
         .map_name = "Chamber of Big Bad",
@@ -210,5 +226,6 @@ const Map maps[] = {
             { .x = 8, .y = 9, .leads_to_map_id = 1, .dest_x = 21, .dest_y = 1 },
         },
         .door_count = 1,
+        .shop_id = -1, // No shop on this map
     }
 };
