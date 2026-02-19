@@ -44,10 +44,10 @@ int main()
             [ATR_LIGHTNING] = {.resistance = 0, .weakness = 0},
         },
         .stats = {
-            [STAT_STR] = {.base_value = 5, .current_value = 5, .modifier = 0},
+            [STAT_STR] = {.base_value = 10, .current_value = 10, .modifier = 0},
             [STAT_DEX] = {.base_value = 20, .current_value = 20, .modifier = 0},
-            [STAT_INT] = {.base_value = 5, .current_value = 5, .modifier = 0},
-            [STAT_END] = {.base_value = 5, .current_value = 5, .modifier = 0},
+            [STAT_INT] = {.base_value = 10, .current_value = 10, .modifier = 0},
+            [STAT_END] = {.base_value = 10, .current_value = 10, .modifier = 0},
             [STAT_VIT] = {.base_value = 25, .current_value = 25, .modifier = 0},
         },
         .gold = 10,
@@ -57,9 +57,9 @@ int main()
         .y = 4,
         .current_exp = 0,
         .exp_to_next_level = player.level * player.level * NEW_LEVEL_EXP_INCREMENT,
-        .inventory[0] = shop_items[0],
-        .inventory[1] = shop_items[1],
-        .inventory[2] = shop_items[2],
+        .inventory[0] = all_items[0],
+        .inventory[1] = all_items[1],
+        .inventory[2] = all_items[2],
         .combat_logic = player_combat_logic,
     };
     strncpy(player.name, choice, sizeof(player.name) - 1);

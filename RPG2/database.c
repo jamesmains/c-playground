@@ -18,7 +18,7 @@ const char *attribute_names[ATR_COUNT][1] = {
     }
 };
 
-const Item shop_items[] = {
+const Item all_items[] = {
     // Broadsword
     {
         .name = "Broadsword",
@@ -51,8 +51,8 @@ const Item shop_items[] = {
         },
         .dice_roll_count = 2,
         .effect = physical_damage_effect,
-        .max_uses = 2,
-        .uses_remaining = 2,
+        .max_uses = 10,
+        .uses_remaining = 10,
         .use_type = DURABLE,
     },
     // Test No Effect Item
@@ -75,10 +75,10 @@ const Entity monster_pool[] = {
         .gold = 5,
         .level = 1, // May need to adjust this based on room or player level?
         .stats = {
-            [STAT_STR] = { .base_value = 5, .current_value = 5, .modifier = 0 },
+            [STAT_STR] = { .base_value = 6, .current_value = 5, .modifier = 0 },
             [STAT_DEX] = { .base_value = 14, .current_value = 14, .modifier = 0 },
             [STAT_INT] = { .base_value = 3, .current_value = 3, .modifier = 0 },
-            [STAT_END] = { .base_value = 4, .current_value = 4, .modifier = 0 },
+            [STAT_END] = { .base_value = 12, .current_value = 4, .modifier = 0 },
             [STAT_VIT] = { .base_value = 6, .current_value = 6, .modifier = 0 },
         },
         .attributes = {
@@ -88,17 +88,17 @@ const Entity monster_pool[] = {
             [ATR_LIGHTNING] = { .resistance = 0, .weakness = 2 },
         },
         .combat_logic = default_ai_combat_logic,
-        .inventory[0] = shop_items[0],
+        .inventory[0] = all_items[0],
     },
     {
         .name = "Orc",
         .gold = 10,
         .level = 2, // May need to adjust this based on room or player level?
         .stats = {
-            [STAT_STR] = { .base_value = 8, .current_value = 8, .modifier = 0 },
+            [STAT_STR] = { .base_value = 12, .current_value = 8, .modifier = 0 },
             [STAT_DEX] = { .base_value = 5, .current_value = 5, .modifier = 0 },
             [STAT_INT] = { .base_value = 4, .current_value = 4, .modifier = 0 },
-            [STAT_END] = { .base_value = 6, .current_value = 6, .modifier = 0 },
+            [STAT_END] = { .base_value = 14, .current_value = 6, .modifier = 0 },
             [STAT_VIT] = { .base_value = 12, .current_value = 12, .modifier = 0 },
         },
         .attributes = {
@@ -108,7 +108,7 @@ const Entity monster_pool[] = {
             [ATR_LIGHTNING] = { .resistance = 0, .weakness = 3 },
         },
         .combat_logic = default_ai_combat_logic,
-        .inventory[0] = shop_items[1],
+        .inventory[0] = all_items[1],
     },
     {
         .name = "Troll",
@@ -118,17 +118,18 @@ const Entity monster_pool[] = {
             [STAT_STR] = { .base_value = 12, .current_value = 12, .modifier = 0 },
             [STAT_DEX] = { .base_value = 4, .current_value = 4, .modifier = 0 },
             [STAT_INT] = { .base_value = 3, .current_value = 3, .modifier = 0 },
-            [STAT_END] = { .base_value = 8, .current_value = 8, .modifier = 0 },
+            [STAT_END] = { .base_value = 22, .current_value = 8, .modifier = 0 },
             [STAT_VIT] = { .base_value = 20, .current_value = 20, .modifier = 0 },
         },
+        // Hella resistant but weak to fire.
         .attributes = {
-            [ATR_FIRE] = { .resistance = 3, .weakness = 0 },
-            [ATR_POISON] = { .resistance = 0, .weakness = 4 },
-            [ATR_ICE] = { .resistance = 2, .weakness = 1 },
-            [ATR_LIGHTNING] = { .resistance = 1, .weakness = 2 },
+            [ATR_FIRE] = { .resistance = 0, .weakness = 5 },
+            [ATR_POISON] = { .resistance = 10, .weakness = 0 },
+            [ATR_ICE] = { .resistance = 10, .weakness = 1 },
+            [ATR_LIGHTNING] = { .resistance = 10, .weakness = 2 },
         },
         .combat_logic = default_ai_combat_logic,
-        .inventory[0] = shop_items[2],
+        .inventory[0] = all_items[2],
     }
 };
 

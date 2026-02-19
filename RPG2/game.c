@@ -113,9 +113,8 @@ void handle_explore(GameContext *ctx)
 
     // Handle player's turn
     Entity player = *ctx->player;
-    int steps = (player.stats[STAT_DEX].current_value - 10) / 2;
-    if (steps < 1)
-    steps = 1;
+    // Need a function for getting a stat's modifier (or just store it in the modifier value since we don't use that...)
+    int steps = min_modifier(player.stats[STAT_DEX],1);
     bool enemy_encountered = false;
     printf("Steps remaining: %d\n", steps);
     for (int i = 0; i < steps; i++)
@@ -207,7 +206,7 @@ void game_loop(GameContext *ctx)
         printf("Debug: Entering combat state\n");
         handle_combat(ctx);
     }
-    // Item i = shop_items[2];
+    // Item i = all_items[2];
     // Entity e = monster_pool[0];
     // printf("\nItem: %s\n", i.name);
     // printf("Monster: %s\n", e.name);

@@ -81,6 +81,7 @@ void win_match(Entity *player, Entity *opponent)
     player->gold += opponent->gold;
 
     player->kills += 1;
+    // Kinda bad that it uses the new level exp increment value...
     int base_exp_reward = opponent->level * NEW_LEVEL_EXP_INCREMENT / 2;
     int level_diff = player->level - opponent->level;
     if (level_diff < 0)
@@ -133,6 +134,11 @@ void take_damage(Entity *target, int damage, int attribute_id)
     damage -= resistance;
     damage += weakness;
 
+    int end_modifier = modifier(target->stats[STAT_END]);
+    if(end_modifier < 0)
+        end_modifier = 0;
+    damage -= end_modifier;
+
     if (damage < 1)
     {
         damage = 1; // Ensure at least 1 damage is dealt
@@ -141,8 +147,8 @@ void take_damage(Entity *target, int damage, int attribute_id)
     target->stats[HEALTH_STAT_ID].current_value -= damage;
     if (target->stats[HEALTH_STAT_ID].current_value < 0)
         target->stats[HEALTH_STAT_ID].current_value = 0;
-    printf("Result: %s took %d damage! Resisted %d! (%d HP remaining)\n",
-           target->name, damage, resistance, target->stats[HEALTH_STAT_ID].current_value);
+    printf("Result: %s took %d damage! Resisted %d. Endured %d. (%d HP remaining)\n",
+           target->name, damage, resistance, end_modifier, target->stats[HEALTH_STAT_ID].current_value);
 }
 
 void remove_item_at_index(Entity *p, int index)

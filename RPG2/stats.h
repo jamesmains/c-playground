@@ -1,14 +1,16 @@
 #ifndef STATS_H
 #define STATS_H
 #define HEALTH_STAT_ID 4
+#define min_modifier(stat, min) modifier(stat) < min ? modifier(stat) : min
+#define modifier(stat) ((stat.base_value - 10) / 2)
 
 
 // Todo: need to find a use for these stats...
 typedef enum {
-    STAT_STR, // 0
+    STAT_STR, // 0  | Used for physical damage and maybe some item requirements
     STAT_DEX, // 1  | Currently only used for steps per explore turn
-    STAT_INT, // 2
-    STAT_END, // 3  | 
+    STAT_INT, // 2  | Used for magic damage and item requirements
+    STAT_END, // 3  | Used to determine how much damage a monster can shrug off
     STAT_VIT, // 4  | Unlike many RPGs this is used as health, not a modifier to it
     STAT_COUNT
 } StatType;

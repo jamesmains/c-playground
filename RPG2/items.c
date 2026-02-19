@@ -46,12 +46,13 @@ void physical_damage_effect(Entity *user, Entity *target, const Item *item) {
             printf("[%d] ", val);
             roll_sum += val;
         }
-
-        // Apply attribute bonuses here if you want (e.g., +STR)
         total_damage += roll_sum;
+        
         printf("| Subtotal: %d\n", roll_sum);
     }
 
+    // Allow str mod to go negative because maybe the creature is weak but still needs to attack.
+    total_damage += min_modifier(user->stats[STAT_STR],0);
     // Now, actually modify the target
-    take_damage(target, total_damage, item->rolls[0].attribute_id);    
+    take_damage(target, total_damage, item->rolls[0].attribute_id);
 }
