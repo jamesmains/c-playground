@@ -78,3 +78,12 @@ void magic_damage_effect(Entity *user, Entity *target, const Item *item) {
     // Now, actually modify the target
     take_damage(target, total_damage, item->rolls[0].attribute_id);
 }
+
+void physical_heal_effect(Entity *user, Entity *target, const Item *item){
+    int total_healing = 0;
+    printf("\033[H\033[J");
+    printf("\n%s uses %s!\n", user->name, item->name);
+    // Get base total healing from dice rolls
+    total_healing += roll_all_dice(item);
+    heal_damage(user, total_healing);
+}

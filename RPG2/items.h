@@ -54,5 +54,6 @@ bool default_requirement_check(Entity *user, Stat *requirements[], const Item *i
 int default_dice_roll(DiceRoll *roll, const Item *item);
 void physical_damage_effect(Entity *user, Entity *target, const Item *item);
 void magic_damage_effect(Entity *user, Entity *target, const Item *item);
+void physical_heal_effect(Entity *user, Entity *target, const Item *item);
 
 #endif

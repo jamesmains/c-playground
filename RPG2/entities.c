@@ -12,7 +12,7 @@ void player_combat_logic(Entity *user, Entity *target, const Item *item)
     {
         if (user->inventory[i].id != 0)
         {
-            printf("[%d] %s |", i, user->inventory[i].name);
+            printf("[%d] %s \t|\t", i, user->inventory[i].name);
             if (user->inventory[i].use_type == DURABLE)
             {
                 printf(" Durability %d/%d\n", user->inventory[i].uses_remaining, user->inventory[i].max_uses);
@@ -20,6 +20,10 @@ void player_combat_logic(Entity *user, Entity *target, const Item *item)
             else if (user->inventory[i].use_type == CASTS)
             {
                 printf(" Casts Remaining: %d\n", user->inventory[i].uses_remaining);
+            }
+            else if (user->inventory[i].use_type == USE)
+            {
+                printf(" Uses Remaining: %d\n", user->inventory[i].uses_remaining);
             }
             else
             {
@@ -81,8 +85,12 @@ void player_combat_logic(Entity *user, Entity *target, const Item *item)
 
 void win_match(Entity *player, Entity *opponent)
 {
-    player->gold += opponent->gold;
+    printf("\033[H\033[J");
+    printf("-------------------------------\n");
+    printf("========== VICTORY! ==========\n");
+    printf("-------------------------------\n");
 
+    player->gold += opponent->gold;
     player->kills += 1;
     // Kinda bad that it uses the new level exp increment value...
     int base_exp_reward = opponent->level * NEW_LEVEL_EXP_INCREMENT / 2;
@@ -96,7 +104,15 @@ void win_match(Entity *player, Entity *opponent)
     {
         player->current_exp -= player->exp_to_next_level;
         player->level += 1;
+
+        // Increase base health
+        int new_base_hp = (player->level * NEW_LEVEL_HP_MODIFIER) + BASE_PLAYER_HP;
         
+        // Give a small heal on level up based on the new hp value, but not so much that it would be a full heal
+        int new_level_hp_heal = new_base_hp - player->stats[HEALTH_STAT_ID].base_value;
+        player->stats[HEALTH_STAT_ID].base_value = new_base_hp;
+        player->stats[HEALTH_STAT_ID].current_value += new_level_hp_heal;
+
         player->exp_to_next_level = player->level * player->level * NEW_LEVEL_EXP_INCREMENT;
         printf("You leveled up! You are now level %d!\n", player->level);
     }
@@ -152,6 +168,14 @@ void take_damage(Entity *target, int damage, int attribute_id)
         target->stats[HEALTH_STAT_ID].current_value = 0;
     printf("Result: %s took %d damage! Resisted %d. Endured %d. (%d HP remaining)\n",
            target->name, damage, resistance, end_modifier, target->stats[HEALTH_STAT_ID].current_value);
+}
+
+void heal_damage(Entity *target, int heal_amount){
+    target->stats[HEALTH_STAT_ID].current_value += heal_amount;
+    if(target->stats[HEALTH_STAT_ID].current_value > target->stats[HEALTH_STAT_ID].base_value)
+        target->stats[HEALTH_STAT_ID].current_value = target->stats[HEALTH_STAT_ID].base_value;
+    printf("Result: %s healed for %d! (%d HP)\n",
+           target->name, heal_amount, target->stats[HEALTH_STAT_ID].current_value);
 }
 
 void remove_item_at_index(Entity *p, int index)

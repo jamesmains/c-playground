@@ -21,7 +21,7 @@ const char *title[] = {
     "▙▘▙▖▐▖▚▘▙▖▌ ▄▌  ▙▌▐   ▐ ▙▖▌ ▌▌▌▌▌▌█▌"};
 
 
-int main()
+int main(int argc, char *argv[])
 {
     srand(time(NULL));
     printf("\033[H\033[J");
@@ -48,7 +48,7 @@ int main()
             [STAT_DEX] = {.base_value = 20, .current_value = 20, .modifier = 0},
             [STAT_INT] = {.base_value = 10, .current_value = 10, .modifier = 0},
             [STAT_END] = {.base_value = 10, .current_value = 10, .modifier = 0},
-            [STAT_VIT] = {.base_value = 25, .current_value = 25, .modifier = 0},
+            [STAT_VIT] = {.base_value = BASE_PLAYER_HP+NEW_LEVEL_HP_MODIFIER, .current_value = BASE_PLAYER_HP+NEW_LEVEL_HP_MODIFIER, .modifier = 0},
         },
         .gold = 10,
         .kills = 0,
@@ -67,7 +67,10 @@ int main()
         .player = &player,
         .state = STATE_EXPLORE,
     };
-    set_map(&ctx, maps[0]);
+    if(argv[1] != NULL){
+        set_map(&ctx, maps[atoi(argv[1])]);
+    }
+    else set_map(&ctx, maps[0]);
     SLEEP_MS(500);
     printf("Welcome, %s! Your adventure awaits...\n", player.name);
     await_user();
@@ -77,6 +80,10 @@ int main()
     {
         game_loop(&ctx);
     }
+    printf("\033[H\033[J");
+    printf("-----------------------------------------------------------------------------\n");
+    printf("You have perished in the dungeon. Better luck next time, %s!\n", player.name);
+    printf("-----------------------------------------------------------------------------\n");
 
     return 0;
 }

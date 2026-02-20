@@ -2,6 +2,8 @@
 #define ENTITIES_H
 #define INVENTORY_SIZE 20
 #define NEW_LEVEL_EXP_INCREMENT 50
+#define BASE_PLAYER_HP 15
+#define NEW_LEVEL_HP_MODIFIER 5
 
 // Include because full definition of Item is needed in Entity struct
 #include "items.h"
@@ -31,6 +33,7 @@ typedef struct Entity{
 } Entity;
 void win_match(Entity* player, Entity* opponent); // Using Player and Opponent terminology for clarity as only the player should hit this, but they are both just Entities
 void take_damage(Entity *target, int damage, int attribute_id);
+void heal_damage(Entity *target, int heal_amount);
 void player_combat_logic(Entity *user, Entity *target, const Item *item);
 void default_ai_combat_logic(Entity *user, Entity *target, const Item *item);
 void remove_item_at_index(Entity *p, int index);

@@ -53,6 +53,9 @@ void draw_world(GameContext *ctx){
             else if (y == 2 && x == map->width - 1) {
                 printf(" STR: %d | DEX: %d | INT: %d | END: %d", ctx->player->stats[STAT_STR].current_value, ctx->player->stats[STAT_DEX].current_value, ctx->player->stats[STAT_INT].current_value, ctx->player->stats[STAT_END].current_value);
             }
+            else if (y == 3 && x == map->width -1){
+                printf(" CORDS | X:%d, Y:%d", ctx->player->x,ctx->player->y);
+            }
         }
         printf("\n");
     }

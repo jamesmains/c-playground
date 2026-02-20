@@ -12,6 +12,7 @@ typedef struct {
     char name[32];
     char description[128];
     Item shop_items[SHOP_ITEM_COUNT];
+    int item_count;
 
 } Shop;
 
