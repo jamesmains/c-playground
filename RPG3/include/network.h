@@ -1,7 +1,9 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#include <emscripten/websocket.h>
+#ifdef __EMSCRIPTEN__
+    #include <emscripten/websocket.h>
+#endif
 
 struct GameContext; 
 typedef struct GameContext GameContext;
@@ -9,7 +11,7 @@ typedef struct GameContext GameContext;
 struct EmscriptenWebSocketMessageEvent; 
 typedef struct EmscriptenWebSocketMessageEvent EmscriptenWebSocketMessageEvent;
 
-void send_position(float x, float y);
+void send_position();
 EM_BOOL on_message(int eventType, const EmscriptenWebSocketMessageEvent *websocketEvent, void *userData);
 void initialize_websocket();
 #endif

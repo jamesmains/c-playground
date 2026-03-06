@@ -3,9 +3,10 @@
 
 #include <SDL2/SDL.h>
 
-struct NetworkPlayer; 
-typedef struct NetworkPlayer NetworkPlayer;
+struct PlayerState; 
+typedef struct PlayerState PlayerState;
 
-void handle_input(NetworkPlayer *player, SDL_Event *event);
+void input_loop();
+void handle_input(PlayerState *player, SDL_Event *event);
 
 #endif

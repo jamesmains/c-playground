@@ -2,9 +2,12 @@
 #define ENGINE_H
 #include "network.h"
 #include "player/network_player.h"
+#include "common.h"
 
 typedef struct GameContext{
-    NetworkPlayer players[4];
+    SharedContext shared;
+    SDL_Window *window;
+    SDL_Renderer *renderer;
     int my_client_id;
     int running;
 } GameContext;

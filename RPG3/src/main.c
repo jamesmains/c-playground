@@ -6,18 +6,10 @@
 #include "network.h"
 #include "engine.h"
 
-int my_client_id = -1;
-
 
 // Global Game State
 // Todo: This is a temporary global context to hold player states. In a real game, you'd want a more robust system for managing players and their states.
 GameContext ctx = {
-    .players = {
-        {.x = 100, .y = 200, .w = 40, .h = 40, .color = {0, 255, 100, 255}}, // Green (You)
-        {.x = 300, .y = 200, .w = 40, .h = 40, .color = {255, 100, 0, 255}},  // Orange (Other)
-        {.x = 300, .y = 200, .w = 40, .h = 40, .color = {255, 100, 0, 255}},  // Orange (Other)
-        {.x = 300, .y = 200, .w = 40, .h = 40, .color = {255, 100, 0, 255}},  // Orange (Other)
-    },
     .my_client_id = -1,
     .running = 1
 };

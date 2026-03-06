@@ -17,24 +17,14 @@ void initialize_engine()
 }
 void main_loop()
 {
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        if (event.type == SDL_QUIT)
-            ctx.running = 0;
-
-        // Make sure it's an actual key press event before doing anything... why are we not doing this outside?
-    if (event.type == SDL_KEYDOWN)
-    {
-        handle_input(&ctx.players[ctx.my_client_id], &event);
-    }
+    // Handle player input
+    input_loop();
 
     // Todo: Add physics and collision here before submitting the change
     // |-> Needs to lerp smoothly
 #ifdef __EMSCRIPTEN__
-            send_position(ctx.players[ctx.my_client_id].x, ctx.players[ctx.my_client_id].y);
+            send_position();
 #endif
-        }
     // --- Rendering ---
     SDL_SetRenderDrawColor(renderer, 20, 20, 40, 255); // Background
     SDL_RenderClear(renderer);
@@ -42,8 +32,8 @@ void main_loop()
     // Draw all players in the array
     for (int i = 0; i < 4; i++)
     {
-        SDL_Rect rect = {(int)ctx.players[i].x, (int)ctx.players[i].y, ctx.players[i].w, ctx.players[i].h};
-        SDL_SetRenderDrawColor(renderer, ctx.players[i].color.r, ctx.players[i].color.g, ctx.players[i].color.b, 255);
+        SDL_Rect rect = {(int)ctx.shared.players[i].x, (int)ctx.shared.players[i].y, ctx.shared.players[i].w, ctx.shared.players[i].h};
+        SDL_SetRenderDrawColor(renderer, ctx.shared.players[i].color.r, ctx.shared.players[i].color.g, ctx.shared.players[i].color.b, 255);
         SDL_RenderFillRect(renderer, &rect);
     }
 

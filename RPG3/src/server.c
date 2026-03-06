@@ -1,32 +1,55 @@
 #include "mongoose.h"
 #include "cJSON.h"
+#include "../include/common.h"
 
 static const char *s_listen_on = "ws://0.0.0.0:8001";
-#define MAX_PLAYERS 4
 
-int connected_players = 0;
+SharedContext server_ctx;
 
 // Handle events (connections, messages, etc.)
 static void fn(struct mg_connection *c, int ev, void *ev_data) {
+
+    // CLIENT INIT ATTEMPT
     if (ev == MG_EV_HTTP_MSG) {
+        int availableIndex = -1;
+        for (int i = 0; i < MAX_PLAYERS; i++)
+        {
+            availableIndex = server_ctx.players[i].active == 0 ? i : -1;
+            if (availableIndex != -1)
+                break;
+        }
         // Upgrade all HTTP requests to WebSocket if server is not full, otherwise boot back with server full message
-        if(connected_players < MAX_PLAYERS) {
+        if(availableIndex != -1) {
             mg_ws_upgrade(c, (struct mg_http_message *) ev_data, NULL);
         }
         else {
             mg_http_reply(c, 503, "Content-Type: text/plain\r\n", "Server full. Try again later.");
         }
 
-    } else if (ev == MG_EV_WS_OPEN) {
-        int id = connected_players; // Unique connection ID
-        connected_players++;
-        printf("New player connected! ID: %d\n", id);
+    } 
+    // PLAYER CONNECT
+    else if (ev == MG_EV_WS_OPEN) {
+        int availableIndex = -1;
+        for (int i = 0; i < MAX_PLAYERS; i++)
+        {
+            availableIndex = server_ctx.players[i].active == 0 ? i : -1;
+            if (availableIndex != -1)
+                break;
+        }
+        int id = availableIndex; // Unique connection ID
+        c->fn_data = (void *)(uintptr_t)availableIndex;
+
+        server_ctx.players[availableIndex].active = 1;
+        server_ctx.players[availableIndex].id = availableIndex;
 
         // Notify the client of their ID
         char response[64];
         snprintf(response, sizeof(response), "{\"type\":\"init\", \"id\":%d}", id);
         mg_ws_send(c, response, strlen(response), WEBSOCKET_OP_TEXT);
-    } else if (ev == MG_EV_WS_MSG) {
+        printf("New player connected! ID: %d\n", id);
+    } 
+    // PLAYER ACTION
+    else if (ev == MG_EV_WS_MSG) {
         struct mg_ws_message *wm = (struct mg_ws_message *) ev_data;
         
         // Use .buf and .len to relay the message
@@ -37,10 +60,22 @@ static void fn(struct mg_connection *c, int ev, void *ev_data) {
                 mg_ws_send(t, wm->data.buf, wm->data.len, WEBSOCKET_OP_TEXT);
             }
         }
-    } else if (ev == MG_EV_CLOSE){
-        if(c->is_websocket) {
-            connected_players--;
-            printf("Player disconnected. Remaining: %d\n", connected_players);
+    } 
+    // PLAYER DISCONNECT
+    else if (ev == MG_EV_CLOSE){
+        if(c->is_websocket && c->fn_data != NULL) {
+            int id = (int)(uintptr_t)c->fn_data;
+
+            server_ctx.players[id].active = 0;
+
+            char leave_msg[64];
+            snprintf(leave_msg, sizeof(leave_msg), "{\"type\":\"leave\", \"id\":%d}", id);
+            
+            for (struct mg_connection *t = c->mgr->conns; t != NULL; t = t->next) {
+                if (t->is_websocket && t != c) {
+                    mg_ws_send(t, leave_msg, strlen(leave_msg), WEBSOCKET_OP_TEXT);
+                }
+            }
         }
     }
 }
