@@ -28,3 +28,5 @@ There was a few things that got cut but still linger in the code (item requireme
 #### Graphics
 While terminal is a pretty poor interface for the modern gamer, there was something charming about the simple "graphics". That being said, there was plenty I couldn't convey with just text. The title screen was one tiny toe in
 the pool of better graphics but this won't be much use until I start looking at graphics libraries. Hopefully RPG3!
+### RPG3
+Coming soon!
